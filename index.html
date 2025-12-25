@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Navidad! 🎄🎅</title>
+
+    <link rel="icon" type="image/png" href="images/icon.png">
+
+    <meta property="og:title" content="¡Feliz Navidad! 🎄🎅">
+    <meta property="og:description" content="Un deseo especial para ti en estas fiestas ❄️">
+    <meta property="og:image" content="https://calabaza-de-halloween.netlify.app/images/icon.png">
+    <meta property="og:url" content="https://calabaza-de-halloween.netlify.app">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="¡Feliz Navidad! 🎄🎅">
+    <meta name="twitter:description" content="Un deseo especial para ti en estas fiestas ❄️">
+    <meta name="twitter:image" content="https://calabaza-de-halloween.netlify.app/images/icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            /* CAMBIO: Colores Navideños */
+            --bg-image: url('https://www.dl.dropboxusercontent.com/scl/fi/rbko8lgrk1jkeb3pzqgmk/back1.png?rlkey=ia6vali5ln6axg2kg9gc4c41i&st=dlxigpzi');
+            --bg-blur-amount: 10px;
+            /* Azul noche invernal */
+            --bg-overlay-color: rgba(255, 255, 255, 0.17); 
+            /* Rojo Navidad */
+            --primary-color: #D40000; 
+
+            /* Brillo Rojo intenso */
+            --primary-glow: #FF0000; 
+            /* Blanco Nieve */
+            --click-me-color: #FFFFFF;
+            /* Dorado brillante */
+            --click-me-glow: #FFD700; 
+            --text-color-light: #ffffff;
+            --text-shadow: rgba(0, 0, 0, 0.7);
+            
+            /* MODIFICADO: Fondo modal verde, animado y transparente */
+            --modal-bg-gradient-1: rgba(10, 50, 20, 0.55); 
+            --modal-bg-gradient-2: rgba(20, 90, 40, 0.45);
+            
+            --modal-backdrop-blur: 15px; /* Más desenfoque para compensar transparencia */
+            /* Borde dorado */
+            --modal-border-color: rgba(255, 215, 0, 0.7); 
+            --modal-shadow: rgba(0, 0, 0, 0.45);
+            --image-border-color: rgba(212, 0, 0, 0.9);
+            --image-shadow-color: rgba(0, 0, 0, 0.5);
+            --title-text-color: #FFF8E7; /* Blanco crema */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            font-family: 'Sour Gummy', sans-serif; 
+            position: relative; 
+        }
+        
+        body { 
+            background-image: var(--bg-image); 
+            background-size: cover; 
+            background-position: center center; 
+            background-attachment: fixed;
+            -webkit-user-select: none; 
+            -ms-user-select: none; 
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-overlay-color); backdrop-filter: blur(var(--bg-blur-amount)); z-index: 0; }
+        
+        #loader-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            /* Gradiente Invernal */
+            background: linear-gradient(135deg, #021B2B, #004d40); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999; 
+            transition: opacity 1s ease-out, visibility 1s ease-out; 
+            opacity: 1; 
+            visibility: visible; 
+        }
+        #loader-container.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-content { text-align: center; }
+
+        .loader-ghost {
+            font-size: 80px;
+            margin: 0 auto 40px auto;
+            animation: ghost-float 2.2s ease-in-out infinite;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes ghost-float {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-25px);
+                opacity: 0.85;
+            }
+        }
+        
+        .progress-bar-container { width: 280px; height: 10px; border: 2px solid var(--primary-color); border-radius: 8px; overflow: hidden; margin-bottom: 20px; background: rgba(255, 255, 255, 0.2); }
+        #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary-color), #FFD700); border-radius: 8px; transition: width 0.4s ease-out; }
+        #progress-text { 
+            color: #eee; 
+            font-family: 'Sour Gummy', sans-serif; 
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        canvas#bg { position: fixed; top: 0; left: 0; z-index: 1; cursor: grab; }
+        canvas#bg:active { cursor: grabbing; }
+
+        /* MODIFICADO: Contenedor posicionado arriba */
+        .click-me-container { 
+            position: fixed; 
+            top: 2%; /* Pegado arriba */
+            left: 50%; 
+            transform: translateX(-50%); 
+            z-index: 2; 
+            text-align: center; 
+            opacity: 0; 
+            transition: opacity 1.5s ease-in; 
+            width: 100%;
+        }
+        
+        #clickMeText { 
+            color: var(--click-me-color); 
+            font-family: 'Mountains of Christmas', cursive; 
+            font-size: 5.5rem; /* Ligeramente más grande para título */
+            cursor: pointer; 
+            text-shadow: 
+                0 0 8px #fff, 
+                0 0 18px #fff, 
+                0 0 28px var(--click-me-glow), 
+                0 0 38px var(--click-me-glow),
+                0 0 48px var(--click-me-glow); 
+            transition: all 0.3s ease-in-out; 
+            animation: heartbeat-intense 2s ease-in-out infinite; /* Animación más lenta y elegante */
+            font-weight: 700;
+            margin: 0;
+            padding: 10px;
+        }
+        
+        #clickMeText:hover { 
+            text-shadow: 
+                0 0 12px #fff, 
+                0 0 28px var(--click-me-glow), 
+                0 0 48px var(--click-me-glow),
+                0 0 68px var(--click-me-glow); 
+            transform: scale(1.08);
+        }
+        
+        @keyframes heartbeat-intense { 
+            0% { transform: scale(1); filter: brightness(1); } 
+            50% { transform: scale(1.05); filter: brightness(1.1); } 
+            100% { transform: scale(1); filter: brightness(1); } 
+        }
+        
+        .modal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 10; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+        .modal-container.active { opacity: 1; pointer-events: auto; }
+        
+        /* Animación para el fondo verde */
+        @keyframes green-shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .modal-content {
+            /* MODIFICADO: Fondo verde animado con transparencia */
+            background: linear-gradient(135deg, var(--modal-bg-gradient-1), var(--modal-bg-gradient-2), var(--modal-bg-gradient-1));
+            background-size: 200% 200%;
+            animation: green-shine 8s ease infinite;
+            
+            backdrop-filter: blur(var(--modal-backdrop-blur)); -webkit-backdrop-filter: blur(var(--modal-backdrop-blur));
+            padding: 40px 50px; border-radius: 30px;
+            box-shadow: 0 15px 50px var(--modal-shadow);
+            max-width: 920px; width: 90%;
+            position: relative; transform: scale(0.9);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--modal-border-color);
+            max-height: 85vh; overflow-y: auto;
+            display: flex; flex-direction: column;
+        }
+
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb:hover { background: var(--primary-glow); }
+
+        .modal-container.active .modal-content { transform: scale(1); }
+        .close-button { 
+            position: absolute; 
+            top: 15px; 
+            right: 25px; 
+            font-size: 2.5rem; 
+            color: var(--text-color-light); 
+            cursor: pointer; 
+            transition: color 0.3s, transform 0.3s; 
+            text-shadow: 0 0 8px var(--text-shadow); 
+            z-index: 20; 
+            font-family: 'Sour Gummy', sans-serif;
+        }
+        .close-button:hover { color: var(--primary-color); transform: rotate(90deg); }
+        .modal-content h1 { 
+            font-family: 'Mountains of Christmas', cursive;
+            color: var(--title-text-color); 
+            text-align: center; 
+            font-size: 3.5rem; 
+            margin-bottom: 25px; 
+            text-shadow: 0 2px 8px var(--text-shadow); 
+            font-weight: 700;
+        }
+        
+        .music-player-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            padding: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .album-cover-container { width: 100%; display: flex; justify-content: center; position: relative; }
+        #album-cover { 
+            width: 200px; 
+            height: 200px; 
+            border-radius: 15px; 
+            box-shadow: 0 0 25px var(--image-shadow-color); 
+            animation: pulse-album 2.2s infinite; 
+            transition: transform 0.3s ease;
+        }
+        #album-cover:hover { transform: scale(1.05); }
+        @keyframes pulse-album { 
+            0% { transform: scale(1); box-shadow: 0 0 25px var(--image-shadow-color); } 
+            50% { transform: scale(1.03); box-shadow: 0 0 35px rgba(255, 215, 0, 0.4); } 
+            100% { transform: scale(1); box-shadow: 0 0 25px var(--image-shadow-color); } 
+        }
+        
+        .song-info { text-align: center; color: var(--text-color-light); margin-top: 15px; }
+        .song-title { 
+            font-size: 1.3rem; 
+            font-weight: 600; 
+            margin: 0; 
+            text-shadow: 0 1px 3px var(--text-shadow); 
+            font-family: 'Sour Gummy', sans-serif;
+        }
+        .artist-name { 
+            font-size: 1rem; 
+            color: #d1d1d1; 
+            margin: 5px 0; 
+            text-shadow: 0 1px 3px var(--text-shadow); 
+            font-family: 'Sour Gummy', sans-serif; 
+            font-weight: 400;
+        }
+        .progress-container { width: 100%; margin-top: 18px; position: relative; }
+        .progress-bar-wrapper { 
+            width: 100%; 
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.25); 
+            border-radius: 5px; 
+            cursor: pointer; 
+            position: relative; 
+            margin: 8px 0;
+        }
+        #musicProgressBar { width: 0%; height: 100%; background: var(--primary-color); border-radius: 5px; transition: width 0.1s linear; }
+        .progress-thumb { 
+            width: 16px; 
+            height: 16px; 
+            background-color: #FFD700; /* Dorado */
+            border-radius: 50%; 
+            position: absolute; 
+            top: 50%; 
+            left: 0%; 
+            transform: translate(-50%, -50%); 
+            cursor: pointer; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease; 
+            opacity: 1;
+            z-index: 10;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-thumb:hover { 
+            transform: translate(-50%, -50%) scale(1.2); 
+            box-shadow: 0 3px 12px rgba(255, 215, 0, 0.6);
+        }
+        
+        .progress-thumb:active { 
+            transform: translate(-50%, -50%) scale(1.3); 
+            box-shadow: 0 4px 16px rgba(255, 215, 0, 0.8);
+        }
+        
+        .progress-bar-wrapper:hover .progress-thumb { opacity: 1; }
+        .progress-time { 
+            display: flex; 
+            justify-content: space-between; 
+            color: #e0e0e0; 
+            font-size: 0.95rem; 
+            margin-top: 8px; 
+            font-family: 'Sour Gummy', sans-serif;
+            font-weight: 400;
+        }
+        
+        .controls { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 300px; margin-top: 22px; }
+        .control-btn { 
+            background: none; 
+            border: none; 
+            color: var(--text-color-light); 
+            font-size: 1.5rem; 
+            cursor: pointer; 
+            transition: color 0.3s ease, transform 0.2s ease; 
+            padding: 8px;
+            border-radius: 50%;
+        }
+        .control-btn.play-pause { font-size: 2.2rem; }
+        .control-btn:hover { 
+            color: var(--click-me-glow); 
+            transform: scale(1.1);
+        }
+        .control-btn.active { color: var(--primary-color); }
+
+        .modal-body { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .text-content p { 
+            font-family: 'Sour Gummy', sans-serif; 
+            font-size: 1.2rem; 
+            line-height: 1.8; 
+            color: var(--text-color-light); 
+            margin-bottom: 20px; 
+            text-shadow: 0 2px 5px var(--text-shadow); 
+            text-align: center; 
+            font-weight: 400;
+        }
+        
+        .carousel-section { width: 100%; perspective: 1200px; min-height: 380px; display: flex; justify-content: center; align-items: center; margin-top: 15px; }
+        .carousel-container-3d { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+        .carousel-3d { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: grab; touch-action: none; }
+        .carousel-3d:active { cursor: grabbing; }
+        .carousel-item-3d { position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; width: 240px; height: 330px; transform-style: preserve-3d; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px var(--image-shadow-color); border: 3px solid var(--image-border-color); background: #0000003a; }
+        .carousel-item-3d img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; user-select: none; pointer-events: none; -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, rgba(0,0,0,0.2)); }
+        
+        .date-signature { 
+            text-align: center; 
+            margin-top: 30px; 
+            font-family: 'Sour Gummy', sans-serif; 
+            font-weight: 600; 
+            font-size: 1.15rem; 
+            letter-spacing: 1px; 
+            color: var(--text-color-light); 
+            opacity: 0.9; 
+            text-shadow: 0 1px 4px var(--text-shadow); 
+        }
+
+        @media (max-width: 850px) {
+            .modal-content h1 { font-size: 2.9rem; }
+            .carousel-section { min-height: 300px; perspective: 1000px; }
+            .carousel-item-3d { width: 190px; height: 260px; }
+            #album-cover { width: 180px; height: 180px; }
+            /* Ajuste de tamaño de fuente para móvil pero manteniendo posición */
+            #clickMeText { font-size: 4.5rem; }
+        }
+        @media (max-width: 480px) {
+            :root { --bg-blur-amount: 2px; }
+            .modal-content { padding: 35px 20px 25px 20px; width: 95%; }
+            .modal-content h1 { font-size: 2.5rem; }
+            .text-content p { font-size: 1.05rem; }
+            .close-button { top: 10px; right: 15px; }
+            .date-signature { font-size: 1.05rem; }
+            .carousel-section { min-height: 250px; perspective: 800px; }
+            .carousel-item-3d { width: 160px; height: 220px; }
+            #album-cover { width: 150px; height: 150px; }
+            .control-btn { font-size: 1.2rem; }
+            .control-btn.play-pause { font-size: 1.9rem; }
+            /* Ajuste de tamaño de fuente para móvil pequeño */
+            #clickMeText { font-size: 3.8rem; }
+            .click-me-container { top: 3%; }
+        }
+
+        .gift-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.gift-button {
+    background: #d40000;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 16px 36px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    animation: giftPulse 1.6s infinite ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Sour Gummy', sans-serif;
+}
+
+.gift-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.9);
+}
+
+@keyframes giftPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 28px rgba(255, 255, 255, 0.9);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="loader-container">
+        <div class="loader-content">
+            <div class="loader-ghost">🎄</div>
+            <div class="progress-bar-container"><div id="progress-bar"></div></div>
+            <p id="progress-text">Cargando Árbol de Navidad... <span id="progress-percent">0%</span></p>
+        </div>
+    </div>
+    <canvas id="bg"></canvas>
+    <audio id="musicPlayer"></audio>
+
+    <!-- MODIFICADO: Texto cambiado a FELIZ NAVIDAD -->
+    <div class="click-me-container"><h2 id="clickMeText">¡Feliz Navidad!</h2></div>
+
+    <div id="modalContainer" class="modal-container">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h1>¡Feliz Navidad! 🎅</h1>
+        
+            <div class="music-player-container">
+                <div class="album-cover-container">
+                    <img id="album-cover" src="images/song1.jpg" alt="Album Cover">
+                </div>
+                <div class="song-info">
+                    <h2 id="song-title" class="song-title">Christmas Song</h2>
+                    <p id="artist-name" class="artist-name">Holiday Artist</p>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div id="musicProgressBar"></div>
+                        <div class="progress-thumb"></div>
+                    </div>
+                    <div class="progress-time">
+                        <span id="current-time">0:00</span>
+                        <span id="total-time">0:00</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="control-btn shuffle"><i class="fas fa-random"></i></button>
+                    <button class="control-btn prev"><i class="fas fa-backward"></i></button>
+                    <button class="control-btn play-pause"><i class="fas fa-play"></i></button>
+                    <button class="control-btn next"><i class="fas fa-forward"></i></button>
+                    <button class="control-btn repeat"><i class="fas fa-redo"></i></button>
+                </div>
+            </div>
+
+            <div class="modal-body">
+            <div class="text-content">
+                <p>La Navidad ha llegado mi amochicho. Espero que disfrutes cada momento y aunque no estemos juntos te siento siempre conmigo, ya podremos disfrutar rico y pasarlo bien juntos como siempre.</p>
+                <p>No importa la distancia, lo importante es la unión y saber que nos tenemos el uno para el otro. 🎄❄️</p>
+                <p>Deseo que tengamos un prospero año 2026 juntos y a todo lo que nos espera, crecer en todo sentido y poder hacer todo lo que soñamos y construimos día a día. ¡Te Amo mucho mi amochicho!</p>
+            </div>
+
+                <div class="carousel-section">
+                    <div class="carousel-container-3d">
+                        <div class="carousel-3d" id="imageCarousel">
+
+                            <div class="carousel-item-3d"><img src="https://www.dropbox.com/scl/fi/b6i7nenmalgvvublmem15/IMG_3217.JPG?raw=1" alt="Recuerdo 3"></div>
+
+                            <div class="carousel-item-3d"><img src="https://dl.dropboxusercontent.com/s/b6i7nenmalgvvublmem15/IMG_3217.JPG" alt="Recuerdo 6"></div>
+                            <div class="carousel-item-3d"><img src="https://www.dl.dropboxusercontent.com/scl/fi/yzp84ypm5i917ris26q3n/gif3.gif?rlkey=zdg00yuqs3x3f39q02siwepg5&st=zx7vqdh8" alt="Recuerdo 1"></div>
+                            <div class="carousel-item-3d"><img src="https://www.dl.dropboxusercontent.com/scl/fi/g7ymvhbz8gfus3v1d2x7a/gif4.gif?rlkey=6p33a4snlyb29mwttti67fmkw&st=zwo26qb0" alt="Recuerdo 4"></div>
+                            <div class="carousel-item-3d"><img src="https://www.dl.dropboxusercontent.com/scl/fi/x1do1xxfww5ev28wk9r9y/gif5.gif?rlkey=emqjog42lqjukicx1k0iks4xj&st=338sknmn" alt="Recuerdo 2"></div>
+                            <div class="carousel-item-3d"><img src="https://www.dl.dropboxusercontent.com/scl/fi/llyg6mr109vx0ad5hqfm8/gif6.gif?rlkey=7wqlnvjffcm1fwo1uhu98v8q8&st=1m96ne7z" alt="Recuerdo 5">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <p class="date-signature">25/12/25</p>
+            <div class="gift-button-container">
+    <a href="https://drive.google.com/file/d/1dAAAPXXaGx63kIt4YVPGAOx3cQTDAgrZ/view?usp=sharing" target="_blank" class="gift-button">
+        🎁 aquí tu regalo
+    </a>
+</div>
+
+        </div>
+    </div>
+
+<script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.166.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.166.0/examples/jsm/" } }</script>
+<script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { RGBELoader } from 'three/addons/loaders/RGBELoader.js'; // Opcional, pero usaremos CubeTexture por ahora
+    
+    const loaderContainer = document.getElementById('loader-container');
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercent = document.getElementById('progress-percent');
+    const clickMeContainer = document.querySelector('.click-me-container');
+    
+    let progress = 0;
+    let modelLoaded = false;
+    let sceneReady = false;
+    
+    // --- LÓGICA DE CARGA (Loader) ---
+    const interval = setInterval(() => { 
+        if (progress < 60) {
+            progress += Math.random() * 8; 
+            if (progress > 60) progress = 60;
+        }
+        else if (modelLoaded && sceneReady) {
+            progress += Math.random() * 15;
+            if (progress > 100) progress = 100;
+        }
+        
+        progressBar.style.width = progress + '%'; 
+        progressPercent.textContent = Math.floor(progress) + '%'; 
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => { 
+                loaderContainer.classList.add('hidden'); 
+                clickMeContainer.style.opacity = '1'; 
+            }, 800); 
+        }
+    }, 300);
+    
+    let renderer, scene, camera;
+    let heartModel = null;
+    let lightParticles;
+    
+    // Variables para la interacción
+    let isMouseDown = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let modelRotationVelocity = { x: 0, y: 0 }; 
+
+    // Textura para partículas
+    function createParticleTexture() { 
+        const canvas = document.createElement('canvas'); 
+        canvas.width = 64; 
+        canvas.height = 64; 
+        const context = canvas.getContext('2d'); 
+        // Gradiente dorado y blanco para efecto mágico
+        const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32); 
+        gradient.addColorStop(0, 'rgba(255, 255, 220, 1)'); // Centro blanco cálido
+        gradient.addColorStop(0.4, 'rgba(255, 215, 0, 0.6)'); // Halo dorado
+        gradient.addColorStop(1, 'rgba(0,0,0,0)'); 
+        context.fillStyle = gradient; 
+        context.fillRect(0, 0, 64, 64); 
+        return new THREE.CanvasTexture(canvas); 
+    }
+
+    function init3D() {
+        scene = new THREE.Scene(); 
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
+        
+        // CAMBIO: Restaurada la posición original de la cámara (Y=1)
+        camera.position.set(0, 1, 8); 
+        camera.lookAt(0, 0, 0); 
+        
+        renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg'), alpha: true, antialias: true }); 
+        renderer.setPixelRatio(window.devicePixelRatio); 
+        renderer.setSize(window.innerWidth, window.innerHeight); 
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Sombras suaves
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.8; // Exposición ajustada para contraste
+        
+        // --- ILUMINACIÓN REALISTA MEJORADA (MANTENIDA) ---
+
+        // 1. Luz Ambiental (Relleno oscuro): Azul noche muy oscuro
+        const ambientLight = new THREE.AmbientLight(0x001a33, 0.4); 
+        scene.add(ambientLight);
+        
+        // 2. SPOTLIGHT SUPERIOR (Efecto copa brillante / base oscura)
+        const topSpotLight = new THREE.SpotLight(0xffaa00, 80); // Color ámbar/dorado intenso
+        topSpotLight.position.set(2, 12, 0); // Muy arriba
+        topSpotLight.angle = Math.PI / 6;
+        topSpotLight.penumbra = 0.5; // Bordes suaves
+        topSpotLight.decay = 1.4; // Decaimiento físico
+        topSpotLight.distance = 40;
+        topSpotLight.castShadow = true;
+        topSpotLight.shadow.bias = -0.0001;
+        topSpotLight.shadow.mapSize.width = 2048;
+        topSpotLight.shadow.mapSize.height = 2048;
+        scene.add(topSpotLight);
+
+        // 3. DIRECTIONAL LIGHT (Luz lateral para contraste)
+        // Viene fuerte desde la derecha para iluminar un lado más que el otro.
+        const sideLight = new THREE.DirectionalLight(0xffffff, 3.0);
+        sideLight.position.set(8, 5, 5); // Derecha y enfrente
+        scene.add(sideLight);
+
+        // 4. RIM LIGHT (Luz de recorte)
+        // Una luz azulada tenue desde atrás a la izquierda.
+        const rimLight = new THREE.DirectionalLight(0x4455ff, 2.5);
+        rimLight.position.set(-5, 2, -5);
+        scene.add(rimLight);
+
+        // --- CARGA DEL MODELO ---
+        const loader = new GLTFLoader();
+        loader.load(
+            'https://www.dl.dropboxusercontent.com/scl/fi/19pri6khy3l687yccaeo5/choinka.glb?rlkey=t3au0zcu161l5jcg72cdnw104&st=lnflu793',
+            function (gltf) {
+                const loadedModel = gltf.scene;
+                const pivot = new THREE.Group();
+                scene.add(pivot);
+
+                // Centrar el modelo
+                const box = new THREE.Box3().setFromObject(loadedModel);
+                const center = new THREE.Vector3();
+                box.getCenter(center);
+                loadedModel.position.sub(center);
+
+                pivot.add(loadedModel);
+                
+                heartModel = pivot;
+                heartModel.scale.set(0.3, 0.3, 0.3);
+                // CAMBIO: Restaurada la posición Y original del modelo a 1
+                heartModel.position.set(0, 0.65, 5); 
+                
+                // Rotación inicial
+                heartModel.rotation.y = (-Math.PI / 2.8) + THREE.MathUtils.degToRad(65);
+                heartModel.userData.initialRotationY = heartModel.rotation.y;
+
+                // MEJORA DE MATERIALES: Recorrer el modelo para hacerlo más "realista"
+                loadedModel.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        
+                        if(child.material) {
+                            // Aumentamos la capacidad de reflejar la luz (metalness)
+                            // y reducimos la rugosidad (roughness) para brillos más definidos
+                            child.material.envMapIntensity = 2.5; 
+                            child.material.metalness = 0.6; // Más metálico para resaltar dorados
+                            child.material.roughness = 0.3; // Menos rugoso = más brillo
+                            child.material.needsUpdate = true;
+                        }
+                    }
+                });
+
+                modelLoaded = true;
+            },
+            function (progress) { },
+            function (error) {
+                console.error(error);
+                createFallbackHeart();
+                modelLoaded = true;
+            }
+        );
+
+        // --- ENTORNO (REFLEJOS) ---
+        const envMapLoader = new THREE.CubeTextureLoader();
+        const envMap = envMapLoader.load([
+            'https://threejs.org/examples/textures/cube/Park3Med/px.jpg', 'https://threejs.org/examples/textures/cube/Park3Med/nx.jpg',
+            'https://threejs.org/examples/textures/cube/Park3Med/py.jpg', 'https://threejs.org/examples/textures/cube/Park3Med/ny.jpg',
+            'https://threejs.org/examples/textures/cube/Park3Med/pz.jpg', 'https://threejs.org/examples/textures/cube/Park3Med/nz.jpg'
+        ]);
+        scene.environment = envMap;
+        // scene.background = null; // Mantenemos el fondo CSS
+
+        // --- PARTÍCULAS ---
+        const particleTexture = createParticleTexture(); 
+        const particlesGeometry = new THREE.BufferGeometry(); 
+        const particlesCount = 4000; 
+        const posArray = new Float32Array(particlesCount * 3); 
+        for (let i = 0; i < particlesCount * 3; i++) { 
+            // Esparcer más las partículas
+            posArray[i] = (Math.random() - 0.5) * 50; 
+        } 
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3)); 
+        const particlesMaterial = new THREE.PointsMaterial({ 
+            map: particleTexture, 
+            size: 0.25, 
+            blending: THREE.AdditiveBlending, 
+            transparent: true, 
+            depthWrite: false, 
+            opacity: 0.8, 
+            sizeAttenuation: true,
+            color: 0xffddaa // Tinte dorado suave
+        }); 
+        lightParticles = new THREE.Points(particlesGeometry, particlesMaterial); 
+        scene.add(lightParticles);
+
+        sceneReady = true;
+
+        function createFallbackHeart() {
+            const geometry = new THREE.SphereGeometry(1.5, 32, 32);
+            const material = new THREE.MeshStandardMaterial({ color: 0xD40000, roughness: 0.1, metalness: 0.5 });
+            heartModel = new THREE.Mesh(geometry, material);
+            scene.add(heartModel);
+        }
+
+        // --- GESTIÓN DEL MOUSE / TOUCH ---
+        const canvas = renderer.domElement;
+
+        function handleDragStart(clientX, clientY) {
+            if (isModalOpen) return;
+            isMouseDown = true;
+            previousMousePosition = { x: clientX, y: clientY };
+            modelRotationVelocity = { x: 0, y: 0 };
+            canvas.style.cursor = 'grabbing';
+        }
+
+        function handleDragMove(clientX, clientY) {
+            if (!isMouseDown || isModalOpen || !heartModel) return;
+            const deltaX = clientX - previousMousePosition.x;
+            
+            // Sensibilidad de rotación manual
+            heartModel.rotation.y += deltaX * 0.005;
+            modelRotationVelocity = { x: 0, y: deltaX * 0.005 };
+            previousMousePosition = { x: clientX, y: clientY };
+        }
+
+        function handleDragEnd() {
+            isMouseDown = false;
+            canvas.style.cursor = 'grab';
+        }
+        
+        canvas.addEventListener('mousedown', (e) => handleDragStart(e.clientX, e.clientY));
+        canvas.addEventListener('mousemove', (e) => handleDragMove(e.clientX, e.clientY));
+        document.addEventListener('mouseup', handleDragEnd);
+        canvas.addEventListener('mouseleave', handleDragEnd);
+
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                handleDragMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', handleDragEnd);
+        canvas.addEventListener('touchcancel', handleDragEnd);
+
+        // --- ANIMACIÓN PRINCIPAL ---
+        const clock = new THREE.Clock();
+        let isModalOpen = false;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            if (heartModel) {
+                // Efecto de "respiración" o escala suave
+                const pulse = Math.sin(elapsedTime * 2.0) * 0.01 + 1;
+                const baseScale = heartModel.userData.baseScale || { x: heartModel.scale.x, y: heartModel.scale.y, z: heartModel.scale.z };
+                if (!heartModel.userData.baseScale) {
+                    heartModel.userData.baseScale = { x: heartModel.scale.x, y: heartModel.scale.y, z: heartModel.scale.z };
+                }
+                heartModel.scale.set(baseScale.x * pulse, baseScale.y * pulse, baseScale.z * pulse);
+
+                // --- LÓGICA DE ROTACIÓN (MANTENIDA) ---
+                if (!isModalOpen && !isMouseDown) {
+                    // Si el usuario soltó el modelo con fuerza, mantener inercia
+                    if (Math.abs(modelRotationVelocity.y) > 0.0001) {
+                        heartModel.rotation.y += modelRotationVelocity.y;
+                        modelRotationVelocity.y *= 0.95; // Fricción suave
+                    } else {
+                        // GIRO UNIFORME Y CONSTANTE HACIA UN LADO
+                        heartModel.rotation.y -= 0.004; 
+                    }
+                }
+            }
+            
+            // Animación de partículas (caída de nieve/magia)
+            const particlePositions = lightParticles.geometry.attributes.position.array;
+            for (let i = 0; i < particlesCount * 3; i+=3) {
+                particlePositions[i + 1] -= 0.02; // Velocidad de caída
+                // Movimiento lateral suave (viento)
+                particlePositions[i] += Math.sin(elapsedTime + particlePositions[i+1]) * 0.002;
+                
+                if (particlePositions[i + 1] < -25) {
+                    particlePositions[i + 1] = 25;
+                    particlePositions[i] = (Math.random() - 0.5) * 50;
+                }
+            }
+            lightParticles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            if (!isModalOpen) { 
+                renderer.setPixelRatio(window.devicePixelRatio); 
+            }
+        });
+
+        animate();
+        
+        // --- RESTO DE LA LÓGICA (MODAL, MÚSICA, CARRUSEL) ---
+        // (Mantenido intacto para funcionalidad)
+        const modalContainer = document.getElementById('modalContainer');
+        const clickMeText = document.getElementById('clickMeText');
+        const closeButton = document.querySelector('.close-button');
+        const music = document.getElementById('musicPlayer');
+        let isFirstOpen = true;
+        const playPauseBtn = document.querySelector('.play-pause');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        const shuffleBtn = document.querySelector('.shuffle');
+        const repeatBtn = document.querySelector('.repeat');
+        const progressBarWrapper = document.querySelector('.progress-bar-wrapper');
+        const musicProgressBar = document.getElementById('musicProgressBar');
+        const progressThumb = document.querySelector('.progress-thumb');
+        const currentTime = document.getElementById('current-time');
+        const totalTime = document.getElementById('total-time');
+        const albumCover = document.getElementById('album-cover');
+        const songTitle = document.getElementById('song-title');
+        const artistName = document.getElementById('artist-name');
+
+        const songs = [
+            { title: "Last Christmas", artist: "Wham!", cover: "https://www.dl.dropboxusercontent.com/scl/fi/ouovlvzo2mrh0bmz6fyts/song1.jpg?rlkey=3owgmf1lst8y2m8752f9563hw&st=dyvrygwq", audio: "https://www.dl.dropboxusercontent.com/scl/fi/w8tauiq3n6b3tj02t0x2u/sound1.mp3?rlkey=y5nu9s4t5vh1no26xk1nb0dov&st=88xwr0ih" },
+            { title: "Jingle Bell Rock", artist: "Bobby Helms", cover: "https://www.dl.dropboxusercontent.com/scl/fi/mfh0sa9ep3edu097jkeuc/song2.jpg?rlkey=zufxpsppn2iibsqdydsdyqo6b&st=n01pzx98", audio: "https://www.dl.dropboxusercontent.com/scl/fi/64hf3ev49r4yoluncccks/sound2.mp3?rlkey=aim1hytk8abjfxuuj0sw7g5mq&st=67702w3i" },
+        ];
+
+        let currentSongIndex = 0;
+        let isDraggingMusic = false;
+        let isShuffle = false;
+        let isRepeat = false;
+        let isLoading = false;
+        let musicReady = false;
+
+        function loadSong(index) {
+            const song = songs[index];
+            isLoading = true;
+            musicReady = false;
+            albumCover.src = song.cover;
+            songTitle.textContent = song.title;
+            artistName.textContent = song.artist;
+            musicProgressBar.style.width = '0%';
+            progressThumb.style.left = '0%';
+            currentTime.textContent = "0:00";
+            music.src = song.audio;
+            music.addEventListener('loadedmetadata', function onLoadedMetadata() {
+                totalTime.textContent = formatTime(music.duration);
+                music.removeEventListener('loadedmetadata', onLoadedMetadata);
+            });
+            music.addEventListener('canplaythrough', function onCanPlayThrough() {
+                isLoading = false;
+                musicReady = true;
+                music.removeEventListener('canplaythrough', onCanPlayThrough);
+            });
+            music.addEventListener('loadeddata', function onLoadedData() {
+                isLoading = false;
+                musicReady = true;
+                music.removeEventListener('loadeddata', onLoadedData);
+            });
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds < 0) return "0:00";
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function playMusic() { 
+            if (musicReady && music.readyState >= 2) {
+                music.play().catch(console.log); 
+            }
+        }
+        
+        function pauseMusic() { music.pause(); }
+        
+        function playNextSong() {
+            if (isShuffle) {
+                let randomIndex;
+                do { randomIndex = Math.floor(Math.random() * songs.length); } while (songs.length > 1 && randomIndex === currentSongIndex);
+                currentSongIndex = randomIndex;
+            } else { currentSongIndex = (currentSongIndex + 1) % songs.length; }
+            loadSong(currentSongIndex); 
+            const playWhenReady = () => { if (musicReady) { playMusic(); } else { setTimeout(playWhenReady, 100); } };
+            playWhenReady();
+        }
+
+        function playPrevSong() {
+            if (isShuffle) { playNextSong(); } else { currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length; }
+            loadSong(currentSongIndex); 
+            const playWhenReady = () => { if (musicReady) { playMusic(); } else { setTimeout(playWhenReady, 100); } };
+            playWhenReady();
+        }
+
+        function openModal() {
+            if (!modalContainer.classList.contains('active')) {
+                modalContainer.classList.add('active');
+                isModalOpen = true;
+                if (isFirstOpen) { 
+                    setTimeout(() => {
+                        const attemptAutoplay = () => { if (musicReady) { playMusic(); } else { setTimeout(attemptAutoplay, 100); } };
+                        attemptAutoplay();
+                    }, 500);
+                    isFirstOpen = false; 
+                }
+                if (renderer) renderer.setPixelRatio(window.devicePixelRatio * 0.5);
+            }
+        }
+
+        function closeModal() {
+            if (modalContainer.classList.contains('active')) {
+                modalContainer.classList.remove('active');
+                isModalOpen = false;
+                if (renderer) renderer.setPixelRatio(window.devicePixelRatio);
+            }
+        }
+
+        clickMeText.addEventListener('click', openModal);
+        closeButton.addEventListener('click', closeModal);
+        modalContainer.addEventListener('dblclick', (e) => { if (e.target === modalContainer) closeModal(); });
+
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        let dragOccurred = false;
+        canvas.addEventListener('mousemove', () => { if(isMouseDown) dragOccurred = true; });
+        canvas.addEventListener('mousedown', () => { dragOccurred = false; });
+        
+        window.addEventListener('click', (event) => {
+            if (dragOccurred) { dragOccurred = false; return; }
+            if (!isModalOpen) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                if (heartModel) {
+                    const intersects = raycaster.intersectObject(heartModel, true);
+                    if (intersects.length > 0) { openModal(); }
+                }
+            }
+        }, false);
+        
+        playPauseBtn.addEventListener('click', () => { if (music.paused) { playMusic(); } else { pauseMusic(); } });
+        music.addEventListener('play', () => { playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>'; });
+        music.addEventListener('pause', () => { playPauseBtn.innerHTML = '<i class="fas fa-play"></i>'; });
+        
+        music.addEventListener('timeupdate', () => {
+            if (!isDraggingMusic && !isNaN(music.duration) && music.duration > 0) {
+                const progress = (music.currentTime / music.duration) * 100;
+                musicProgressBar.style.width = `${progress}%`;
+                progressThumb.style.left = `${progress}%`;
+                currentTime.textContent = formatTime(music.currentTime);
+            }
+        });
+        
+        music.addEventListener('loadedmetadata', () => { totalTime.textContent = formatTime(music.duration); });
+        music.addEventListener('ended', () => { if(isRepeat) { music.currentTime = 0; playMusic(); } else { playNextSong(); } });
+
+        function setProgress(e) {
+            if (isNaN(music.duration) || music.duration <= 0) return;
+            e.preventDefault();
+            const rect = progressBarWrapper.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const percentage = Math.max(0, Math.min(100, (clickX / width) * 100));
+            const newTime = (percentage / 100) * music.duration;
+            musicProgressBar.style.width = `${percentage}%`;
+            progressThumb.style.left = `${percentage}%`;
+            currentTime.textContent = formatTime(newTime);
+            music.currentTime = newTime;
+        }
+
+        progressBarWrapper.addEventListener('click', setProgress);
+        let startDragX = 0;
+        progressThumb.addEventListener('mousedown', (e) => { e.preventDefault(); isDraggingMusic = true; startDragX = e.clientX; document.addEventListener('selectstart', preventSelect); });
+        function preventSelect(e) { e.preventDefault(); }
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingMusic && !isNaN(music.duration) && music.duration > 0) {
+                e.preventDefault();
+                const rect = progressBarWrapper.getBoundingClientRect();
+                let percentage = ((e.clientX - rect.left) / rect.width) * 100;
+                percentage = Math.max(0, Math.min(100, percentage));
+                musicProgressBar.style.width = `${percentage}%`;
+                progressThumb.style.left = `${percentage}%`;
+                currentTime.textContent = formatTime((percentage / 100) * music.duration);
+            }
+        });
+        document.addEventListener('mouseup', (e) => { if(isDraggingMusic) { isDraggingMusic = false; setProgress(e); document.removeEventListener('selectstart', preventSelect); } });
+        progressBarWrapper.addEventListener('touchstart', (e) => { e.preventDefault(); isDraggingMusic = true; }, { passive: false });
+        progressBarWrapper.addEventListener('touchmove', (e) => {
+            if (isDraggingMusic && !isNaN(music.duration) && music.duration > 0) {
+                e.preventDefault();
+                const rect = progressBarWrapper.getBoundingClientRect();
+                const touch = e.touches[0];
+                let percentage = ((touch.clientX - rect.left) / rect.width) * 100;
+                percentage = Math.max(0, Math.min(100, percentage));
+                musicProgressBar.style.width = `${percentage}%`;
+                progressThumb.style.left = `${percentage}%`;
+                currentTime.textContent = formatTime((percentage / 100) * music.duration);
+            }
+        }, { passive: false });
+        progressBarWrapper.addEventListener('touchend', (e) => {
+            if (isDraggingMusic) {
+                e.preventDefault();
+                isDraggingMusic = false;
+                const touch = e.changedTouches[0];
+                const fakeEvent = { clientX: touch.clientX, preventDefault: () => {} };
+                setProgress(fakeEvent);
+            }
+        }, { passive: false });
+
+        nextBtn.addEventListener('click', playNextSong);
+        prevBtn.addEventListener('click', playPrevSong);
+        shuffleBtn.addEventListener('click', () => { isShuffle = !isShuffle; shuffleBtn.classList.toggle('active', isShuffle); });
+        repeatBtn.addEventListener('click', () => { isRepeat = !isRepeat; repeatBtn.classList.toggle('active', isRepeat); });
+        loadSong(currentSongIndex);
+
+        const carousel = document.getElementById('imageCarousel');
+        if (carousel) {
+            const items = carousel.querySelectorAll('.carousel-item-3d'); 
+            let radius, isCarouselDragging = false, startX = 0, currentRotation = 0, targetRotation = 0, autoRotateTimeout, animationFrameId; 
+            const angle = 360 / items.length;
+            const updateRadius = () => { 
+                if (window.innerWidth <= 480) radius = 180; 
+                else if (window.innerWidth <= 850) radius = 220; 
+                else radius = 260; 
+            };
+            const arrangeItems = () => { updateRadius(); items.forEach((item, index) => { item.style.transform = `rotateY(${angle * index}deg) translateZ(${radius}px)`; }); };
+            const dragStart = (e) => { isCarouselDragging = true; startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX; carousel.style.transition = 'none'; stopAutoRotate(); };
+            const dragging = (e) => { 
+                if (!isCarouselDragging) return; 
+                const currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX; 
+                const diffX = currentX - startX; 
+                const sensitivity = window.innerWidth <= 850 ? 0.7 : 0.5; 
+                targetRotation = currentRotation + diffX * sensitivity; 
+                carousel.style.transform = `rotateY(${targetRotation}deg)`; 
+            };
+            const dragEnd = () => { if (!isCarouselDragging) return; isCarouselDragging = false; carousel.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; currentRotation = targetRotation; restartAutoRotateWithDelay(); };
+            const animateRotation = () => { if (isCarouselDragging) return; const rotationSpeed = 0.28; targetRotation -= rotationSpeed; currentRotation -= rotationSpeed; carousel.style.transform = `rotateY(${targetRotation}deg)`; animationFrameId = requestAnimationFrame(animateRotation); };
+            const stopAutoRotate = () => { if (animationFrameId) cancelAnimationFrame(animationFrameId); clearTimeout(autoRotateTimeout); };
+            const startAutoRotate = () => { stopAutoRotate(); animationFrameId = requestAnimationFrame(animateRotation); };
+            const restartAutoRotateWithDelay = () => { stopAutoRotate(); autoRotateTimeout = setTimeout(startAutoRotate, 3000); };
+            carousel.addEventListener('mousedown', dragStart); document.addEventListener('mousemove', dragging); document.addEventListener('mouseup', dragEnd);
+            carousel.addEventListener('touchstart', dragStart, { passive: true }); carousel.addEventListener('touchmove', dragging, { passive: true }); carousel.addEventListener('touchend', dragEnd);
+            const modalObserver = new MutationObserver(mutations => { mutations.forEach(mutation => { if (mutation.attributeName === 'class') { const isActive = mutation.target.classList.contains('active'); if (isActive) { arrangeItems(); startAutoRotate(); } else { stopAutoRotate(); } } }); });
+            modalObserver.observe(modalContainer, { attributes: true });
+            window.addEventListener('resize', arrangeItems);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init3D);
+    } else {
+        init3D();
+    }
+</script>
+</body>
+</html>
